@@ -1,0 +1,20 @@
+<h1>Sample app</h1>
+<br/>
+This is a simple App that demonstrates the usage of ng2ADAL.
+It will do the following,
+<ul>
+    <li>Allow the user to sign in and sign out</li>
+    <li>Automatically keep renewing the access token as necessary (5 mins before expiration</li>
+    <li>Give you an authenticated http service, that will automatically include the access token on requests, or sign in on a 401 unauthorized</li>
+</ul>
+<br/>
+<div *ngIf="!isUserAuthenticated">
+    User is not authenticated
+    <button (click)="logIn()">Sign In</button>
+</div>
+<div *ngIf="isUserAuthenticated">
+    User is authenticated 
+    <button (click)="logOut()">Sign Out</button>
+    <hr/>
+    <files></files>
+</div>

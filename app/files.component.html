@@ -1,0 +1,8 @@
+Files:<br/>
+<button (click)="getFiles()">Get Files</button>
+<ul>
+    <li *ngFor="let file of files">
+        <span>{{file.name}}</span>
+        <span>{{file.size}}</span>
+    </li>
+</ul>
