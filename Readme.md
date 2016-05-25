@@ -1,4 +1,4 @@
-## Angular2 ADAL (Active Directory Authentication Library)
+## Angular2 Azure AD Auth Lib (not the official ADAL, but similar functionality)
 *This is an unofficial, not written by Microsoft, but open source authentication library for Angular 2 that lets you authenticate with AzureAD, and tap into Office 365 APIs or other AzureAD protected APIs*
 *The code has been written so this could be easily enhanced to support other auth providers (such as ADFS3/Google etc.)*
 
