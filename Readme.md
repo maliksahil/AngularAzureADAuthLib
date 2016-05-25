@@ -25,7 +25,7 @@ In order to do so, use the "AuthenticatedHttpService" which is also part of this
 If you click on Get Files without signing in, or for some reason the access token has expired (library renews it so it should never happen), it will prompt the user to sign in.
 
 And the running app looks like this -- (yeah I know basic, and my UX sucks, but shows the concept, doesn't it?) :-)
-![Launch](/screenshots/getfiles.png)
+![Launch](/screenshots/getFiles.png)
 
 Credits:
 This app uses the following component:
