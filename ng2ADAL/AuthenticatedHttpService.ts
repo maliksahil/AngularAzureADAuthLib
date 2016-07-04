@@ -32,14 +32,13 @@ export class AuthenticatedHttpService {
         });
     });
     return promise;
-    // return this.http.get(url, { headers: headers });
   }
 
   post(url, data) {
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
     return this._http.post(url, data, {
-      headers: headers
+      headers: headers,      
     });
   }
 }

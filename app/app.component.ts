@@ -3,21 +3,23 @@ import {Observable} from 'rxjs/Rx';
 import { Http, HTTP_PROVIDERS } from '@angular/http';
 
 import {Authenticator} from '../ng2ADAL/Authenticator';
-import {ServiceConstants, AuthHelperBase} from '../ng2ADAL/AuthHelperBase';
+import {ServiceConstants} from '../ng2ADAL/ServiceConstants';
+import { AuthHelperBase} from '../ng2ADAL/AuthHelperBase';
 import {AzureADAuthHelper} from '../ng2ADAL/AzureADAuthHelper';
 import {AuthenticatedHttpService} from '../ng2ADAL/AuthenticatedHttpService';
 
 import {FilesComponent} from './files.component'
 
-var azureADAuthHelper = new AzureADAuthHelper(new ServiceConstants("1c623fa4-c6c8-4903-a6aa-67c5ba9a1535", "winsmartsdev.onmicrosoft.com", "http://localhost:3000"));
+var azureADAuthHelper = new AzureADAuthHelper(new ServiceConstants("19d25c72-6c48-4019-a7e1-6faf56f612c8", "winsmartsdev.onmicrosoft.com", "http://localhost:3000"));
 var authenticator = new Authenticator(azureADAuthHelper);
-
-let authFactory = () => {return authenticator;}
+function authenticatorFactory() {
+    return authenticator;
+}
 
 @Component({
     selector: 'app',
     templateUrl: 'app/app.component.html',
-    providers:[Http, HTTP_PROVIDERS, AuthenticatedHttpService, provide(Authenticator, { useFactory: authFactory })],
+    providers:[Http, HTTP_PROVIDERS, AuthenticatedHttpService, provide(Authenticator, { useFactory: authenticatorFactory })],
     directives:[FilesComponent]
 })
 
