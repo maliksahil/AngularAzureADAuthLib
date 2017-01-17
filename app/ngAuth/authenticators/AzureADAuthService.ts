@@ -1,11 +1,46 @@
+// #docregion
 import { Injectable } from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import { Http, Headers } from '@angular/http';
+import { JwtHelper } from '../JwtHelper';
 
-import {AuthHelperBase} from './AuthHelperBase';
-import { ServiceConstants } from "./ServiceConstants";
+import { AzureADServiceConstants } from "./AzureADServiceConstants";
 
 @Injectable()
-export class AzureADAuthHelper extends AuthHelperBase {
+export class AzureADAuthService {
+    public isUserAuthenticated(): boolean {
+        let access_token = this.getAccessToken();
+        return access_token != null;
+    }
+
+    public getAccessToken(): string {
+        return window.localStorage.getItem("access_token");
+    }
+
+    public getUserName(): string {
+        var jwtHelper = new JwtHelper();
+        var parsedToken = jwtHelper.decodeToken(this.getAccessToken());
+
+        var expiryTime = new Date(parsedToken.exp * 1000);
+        var now = new Date();
+        if (now > expiryTime) this.logOut();
+
+        return parsedToken.upn;
+    }
+
+// #docregion login    
+    public logIn(state = "/") {
+        window.location.href = "https://login.microsoftonline.com/" + this._serviceConstants.tenantID +
+            "/oauth2/authorize?response_type=id_token&client_id=" + this._serviceConstants.clientID +
+            "&redirect_uri=" + encodeURIComponent(window.location.href) +
+            "&state=" + state + "&nonce=SomeNonce";
+    }
+// #enddocregion login
+
+    public logOut(state = "/") {
+        window.localStorage.removeItem("id_token");
+        window.localStorage.removeItem("access_token");
+        window.location.href = state;
+    }
     private parseQueryString = function (url: string) {
         var params = {};
         var queryString = "";
@@ -24,14 +59,13 @@ export class AzureADAuthHelper extends AuthHelperBase {
     }
 
     private params = this.parseQueryString(location.hash);
-
-    constructor(private _serviceConstants: ServiceConstants) {
-        super();
+// #docregion ctor
+    constructor(private _serviceConstants: AzureADServiceConstants) {
         // do we have an access token, if so add the iframe renewer
         if (window.localStorage.getItem("access_token")) {
             var iframe = document.createElement('iframe');
             iframe.style.display = "none";
-            iframe.src = "/IF/BIF/Framework/Authentication/renewToken.html?tenantID=" +
+            iframe.src = "/app/ngAuth/renewToken.html?tenantID=" +
                 encodeURIComponent(this._serviceConstants.tenantID) +
                 "&clientID=" + encodeURIComponent(this._serviceConstants.clientID) +
                 "&resource=" + encodeURIComponent(this._serviceConstants.graphResource);
@@ -54,33 +88,11 @@ export class AzureADAuthHelper extends AuthHelperBase {
             window.location.href = this.params["state"];
         }
     }
-
-    logIn(state = "/") {
-        window.location.href = "https://login.microsoftonline.com/" + this._serviceConstants.tenantID +
-            "/oauth2/authorize?response_type=id_token&client_id=" + this._serviceConstants.clientID +
-            "&redirect_uri=" + encodeURIComponent(window.location.href) +
-            "&state=" + state + "&nonce=SomeNonce";
-    }
-
-    logOut(state = "/") {
-        window.localStorage.removeItem("id_token");
-        window.localStorage.removeItem("access_token");
-        window.location.href = state;
-    }
-
-    refreshAccessToken(state = "/") {
-        this.logIn(state); // force login, assume that renewToken.html didn't work which is why dev is calling this.
-    }
-
-    public getAccessToken() {
-        return window.localStorage.getItem("access_token");
-    }
-
-    public ServiceConstants() {
-        return this._serviceConstants;
-    }
+// #enddocregion ctor
 }
 
-function error(err) {
+function error(err: any) {
     console.error(JSON.stringify(err, null, 4));
 }
+
+// #enddocregion
