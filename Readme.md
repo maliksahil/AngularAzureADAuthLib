@@ -1,4 +1,4 @@
-## Angular2 Azure AD Auth Lib (not the official ADAL, but similar functionality)
+## Angular Azure AD Auth Lib (not the official ADAL, but similar functionality)
 *This is an unofficial, not written by Microsoft, but open source authentication library for Angular 2 that lets you authenticate with AzureAD, and tap into Office 365 APIs or other AzureAD protected APIs*
 *The code has been written so this could be easily enhanced to support other auth providers (such as ADFS3/Google etc.)*
 
@@ -8,11 +8,9 @@ To use,
 3. Run npm install
 4. Run npm start
 
-When the app launches, it should look like this - 
-![Launch](/screenshots/signin.png)
+When the app launches, it shows the standard sign in link
 
-Click the "Sign in, and it should look like -
-![Launch](/screenshots/signedin.png)
+Go ahead and sign in.
 
 At this point, you have an access token, which you can see in the local storage of the browser.
 Also, the library adds a hidden IFrame to renew the access token 5 mins before it expires. This is automatic, you don't have to worry about it.
@@ -24,11 +22,11 @@ In order to do so, use the "AuthenticatedHttpService" which is also part of this
 
 If you click on Get Files without signing in, or for some reason the access token has expired (library renews it so it should never happen), it will prompt the user to sign in.
 
-And the running app looks like this -- (yeah I know basic, and my UX sucks, but shows the concept, doesn't it?) :-)
-![Launch](/screenshots/getFiles.png)
+And the running app makes a simple graph capp -- (yeah I know basic, and my UX sucks, but shows the concept, doesn't it?) :-)
+
 
 Credits:
 This app uses the following component:
-    1. AngularJS2 www.angularjs.org
+    1. Angular www.angular.io
     2. Typescript typescriptlang.org
     3. JWT token decoder from auth0
